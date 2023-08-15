@@ -5,7 +5,7 @@ import com.pedro.todo.tasklist.ui.TaskListItemUiState
 
 class TaskItemUiStateMapperImpl : TaskItemUiStateMapper {
     override fun mapToUiState(taskDTO: TaskDTO): TaskListItemUiState {
-        return TaskListItemUiState.Task(
+        return TaskListItemUiState(
             title = taskDTO.title,
             description = taskDTO.description,
         )

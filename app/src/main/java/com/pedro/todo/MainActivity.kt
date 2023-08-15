@@ -10,37 +10,23 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.fragment.app.FragmentActivity
+import com.pedro.todo.databinding.ActivityMainBinding
+import com.pedro.todo.tasklist.ui.TaskListFragment
 import com.pedro.todo.ui.theme.ToDoTheme
 
-class MainActivity : ComponentActivity() {
+class MainActivity : FragmentActivity() {
+
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent {
-            ToDoTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    Greeting("Android")
-                }
-            }
-        }
-    }
-}
+        binding = ActivityMainBinding.inflate(layoutInflater)
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
+        setContentView(binding.root)
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    ToDoTheme {
-        Greeting("Android")
+        supportFragmentManager.beginTransaction()
+            .add(binding.fragmentContainerView.id, TaskListFragment())
+            .commit()
     }
 }

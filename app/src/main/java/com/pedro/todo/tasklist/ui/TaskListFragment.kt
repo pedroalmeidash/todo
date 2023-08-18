@@ -22,7 +22,11 @@ class TaskListFragment : Fragment() {
         return ComposeView(requireContext()).apply {
             setContent {
                 val screenState = viewModel.taskListLiveData.observeAsState()
-                screenState.value?.let { TaskListView(uiState = it) }
+                screenState.value?.let { uiState ->
+                    TaskListView(
+                        uiState = uiState,
+                    ) { uiEvent -> viewModel.handleUiEvents(uiEvent) }
+                }
             }
         }
     }

@@ -4,5 +4,8 @@ import com.pedro.todo.repository.TaskDTO
 import com.pedro.todo.tasklist.ui.TaskListItemUiState
 
 interface TaskItemUiStateMapper {
-    fun mapToUiState(taskDTO: TaskDTO): TaskListItemUiState
+    fun mapToUiState(
+        taskDTO: TaskDTO,
+        checkedTasksId: List<String>,
+    ): TaskListItemUiState
 }

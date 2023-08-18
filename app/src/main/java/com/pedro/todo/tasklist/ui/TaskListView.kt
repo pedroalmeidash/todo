@@ -21,17 +21,24 @@ import com.pedro.todo.R
 
 @Composable
 fun TaskListView(
-    uiState: TaskListUiState
+    uiState: TaskListUiState,
+    onUiEvent: (TaskListUiEvent) -> Unit,
 ) {
     LazyColumn {
         items(uiState.tasks) {
-            TaskItem(it)
+            TaskItem(
+                uiState = it,
+                onUiEvent = onUiEvent,
+            )
         }
     }
 }
 
 @Composable
-private fun TaskItem(uiState: TaskListItemUiState) {
+private fun TaskItem(
+    uiState: TaskListItemUiState,
+    onUiEvent: (TaskListUiEvent) -> Unit,
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -51,8 +58,10 @@ private fun TaskItem(uiState: TaskListItemUiState) {
         )
 
         Checkbox(
-            checked = false,
-            onCheckedChange = {},
+            checked = uiState.isChecked,
+            onCheckedChange = {
+                onUiEvent(TaskListUiEvent.OnCheckChanged(uiState.id, it))
+            },
         )
     }
 }
@@ -64,10 +73,13 @@ private fun TaskListPreview() {
         uiState = TaskListUiState(
             tasks = listOf(
                 TaskListItemUiState(
+                    id = "id",
                     title = "Title",
                     description = "Description",
+                    isChecked = true,
                 )
             )
-        )
+        ),
+        onUiEvent = {},
     )
 }

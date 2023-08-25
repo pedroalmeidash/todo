@@ -6,12 +6,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pedro.todo.repository.TaskDTO
 import com.pedro.todo.repository.TaskRepository
+import com.pedro.todo.repository.TaskUpdateRepository
 import com.pedro.todo.tasklist.mapper.TaskItemUiStateMapper
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class TaskListViewModel(
     private val taskRepository: TaskRepository,
     private val taskItemUiStateMapper: TaskItemUiStateMapper,
+    private val taskUpdateRepository: TaskUpdateRepository,
 ) : ViewModel() {
     private val taskListDTOLiveData: MutableLiveData<List<TaskDTO>> = MutableLiveData()
     private val checkedTasksIdLiveData: MutableLiveData<List<String>> = MutableLiveData()
@@ -32,6 +35,19 @@ class TaskListViewModel(
                 .getAllTasks()
                 .collect { taskListDTOLiveData.postValue(it) }
         }
+
+        viewModelScope.launch {
+            taskUpdateRepository.init().collect()
+        }
+
+        taskRepository.updateTasks(emptyList())
+        onTaskClick()
+    }
+
+    private fun onTaskClick() {
+        taskUpdateRepository.addTask(
+            TaskDTO("Id", "Title", "Description")
+        )
     }
 
     private fun buildUiState(
@@ -50,6 +66,7 @@ class TaskListViewModel(
     fun handleUiEvents(uiEvent: TaskListUiEvent) {
         when (uiEvent) {
             is TaskListUiEvent.OnCheckChanged -> {
+                onTaskClick()
                 updateTaskCheckStatus(
                     taskId = uiEvent.taskId,
                     isChecked = uiEvent.isChecked,

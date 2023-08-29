@@ -12,7 +12,6 @@ class TaskListViewModelFactory : ViewModelProvider.Factory {
         return TaskListViewModel(
             taskRepository = taskRepository,
             taskItemUiStateMapper = TaskItemUiStateMapperImpl(),
-            taskUpdateRepository = TaskUpdateRepositoryImpl(taskRepository = taskRepository),
         ) as T
     }
 }

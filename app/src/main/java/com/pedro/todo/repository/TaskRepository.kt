@@ -1,8 +1,8 @@
 package com.pedro.todo.repository
 
-import kotlinx.coroutines.flow.Flow
+import io.reactivex.rxjava3.core.Observable
 
 interface TaskRepository {
-    fun getAllTasks(): Flow<List<TaskDTO>>
+    fun getAllTasks(): Observable<List<TaskDTO>>
     fun updateTasks(taskDTOList: List<TaskDTO>)
 }

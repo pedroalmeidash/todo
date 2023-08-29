@@ -1,20 +1,17 @@
 package com.pedro.todo.repository
 
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.subjects.BehaviorSubject
 
 class TaskRepositoryImpl : TaskRepository {
 
-    private val taskDTOListStream: MutableSharedFlow<List<TaskDTO>> = MutableSharedFlow(
-        replay = 1
-    )
+    private val taskDTOListStream = BehaviorSubject.createDefault<List<TaskDTO>>(emptyList())
 
-    override fun getAllTasks(): Flow<List<TaskDTO>> {
+    override fun getAllTasks(): Observable<List<TaskDTO>> {
         return taskDTOListStream
     }
 
     override fun updateTasks(taskDTOList: List<TaskDTO>) {
-        println("Update called")
-        taskDTOListStream.tryEmit(taskDTOList)
+        taskDTOListStream.onNext(taskDTOList)
     }
 }

@@ -1,34 +1,25 @@
 package com.pedro.todo.repository
 
-import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.flatMapConcat
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.take
+import android.annotation.SuppressLint
+import io.reactivex.rxjava3.subjects.PublishSubject
 
+@SuppressLint("CheckResult")
 class TaskUpdateRepositoryImpl(
     private val taskRepository: TaskRepository
 ) : TaskUpdateRepository {
 
-    private val taskUpdateStream = MutableSharedFlow<TaskUpdate>(replay = 0, extraBufferCapacity = 10)
+    private val taskUpdateStream = PublishSubject.create<TaskUpdate>()
 
-    @OptIn(FlowPreview::class)
-    private val taskUpdateAndListStream = taskUpdateStream.flatMapConcat { taskUpdate ->
-        taskRepository.getAllTasks().take(1).map { taskList ->
-            Pair(taskUpdate, taskList)
-        }
-    }
-
-    override fun init(): Flow<Unit> {
-        return taskUpdateAndListStream.onEach {
-            val (taskUpdate, taskList) = it
+    init {
+        taskUpdateStream.withLatestFrom(
+            taskRepository.getAllTasks(),
+            ::Pair,
+        ).subscribe { (taskUpdate, taskList) ->
             val updatedTaskList = when (taskUpdate) {
                 is TaskUpdate.Add -> handleAddTaskUpdate(taskUpdate.taskDTO, taskList)
             }
             taskRepository.updateTasks(updatedTaskList)
-        }.map {}
+        }
     }
 
     private fun handleAddTaskUpdate(
@@ -39,7 +30,7 @@ class TaskUpdateRepositoryImpl(
     }
 
     override fun addTask(taskDTO: TaskDTO) {
-        taskUpdateStream.tryEmit(TaskUpdate.Add(taskDTO))
+        taskUpdateStream.onNext(TaskUpdate.Add(taskDTO))
     }
 }
 

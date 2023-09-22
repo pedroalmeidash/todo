@@ -1,9 +1,12 @@
-package com.pedro.todo.repository
+package com.pedro.todo.data.repository.impl
 
+import com.pedro.todo.data.dto.TaskDTO
+import com.pedro.todo.data.repository.TaskRepository
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.subjects.BehaviorSubject
+import javax.inject.Inject
 
-class TaskRepositoryImpl : TaskRepository {
+class TaskRepositoryImpl @Inject constructor() : TaskRepository {
 
     private val taskDTOListStream = BehaviorSubject.createDefault<List<TaskDTO>>(emptyList())
 

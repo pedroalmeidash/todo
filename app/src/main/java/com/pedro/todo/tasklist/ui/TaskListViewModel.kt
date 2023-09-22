@@ -2,12 +2,15 @@ package com.pedro.todo.tasklist.ui
 
 import android.annotation.SuppressLint
 import androidx.lifecycle.ViewModel
-import com.pedro.todo.repository.TaskRepository
+import com.pedro.todo.data.repository.TaskRepository
 import com.pedro.todo.tasklist.mapper.TaskItemUiStateMapper
+import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.subjects.BehaviorSubject
+import javax.inject.Inject
 
-class TaskListViewModel(
+@HiltViewModel
+class TaskListViewModel @Inject constructor(
     private val taskRepository: TaskRepository,
     private val taskItemUiStateMapper: TaskItemUiStateMapper,
 ) : ViewModel() {

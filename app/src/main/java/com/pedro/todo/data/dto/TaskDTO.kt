@@ -1,4 +1,4 @@
-package com.pedro.todo.repository
+package com.pedro.todo.data.dto
 
 data class TaskDTO(
     val id: String,

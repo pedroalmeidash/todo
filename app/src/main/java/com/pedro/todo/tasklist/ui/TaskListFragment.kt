@@ -9,11 +9,11 @@ import androidx.compose.runtime.rxjava3.subscribeAsState
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class TaskListFragment : Fragment() {
-    private val viewModel: TaskListViewModel by viewModels(
-        factoryProducer = { TaskListViewModelFactory() }
-    )
+    private val viewModel: TaskListViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,

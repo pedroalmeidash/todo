@@ -1,9 +1,10 @@
 package com.pedro.todo.tasklist.mapper
 
-import com.pedro.todo.repository.TaskDTO
+import com.pedro.todo.data.dto.TaskDTO
 import com.pedro.todo.tasklist.ui.TaskListItemUiState
+import javax.inject.Inject
 
-class TaskItemUiStateMapperImpl : TaskItemUiStateMapper {
+class TaskItemUiStateMapperImpl @Inject constructor()  : TaskItemUiStateMapper {
     override fun mapToUiState(
         taskDTO: TaskDTO,
         checkedTasksId: List<String>,

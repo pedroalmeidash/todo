@@ -3,10 +3,12 @@ package com.pedro.todo.tasklist.ui
 import android.annotation.SuppressLint
 import androidx.lifecycle.ViewModel
 import com.pedro.todo.data.repository.TaskRepository
+import com.pedro.todo.navigation.NavigationModel
 import com.pedro.todo.tasklist.mapper.TaskItemUiStateMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.subjects.BehaviorSubject
+import io.reactivex.rxjava3.subjects.PublishSubject
 import javax.inject.Inject
 
 @HiltViewModel
@@ -17,6 +19,8 @@ class TaskListViewModel @Inject constructor(
     private val checkedTasksIdStream: BehaviorSubject<List<String>> = BehaviorSubject.createDefault(
         emptyList()
     )
+
+    val navigationStream: PublishSubject<NavigationModel> = PublishSubject.create()
 
     fun buildUiState(): Observable<TaskListUiState> {
         return Observable.combineLatest(
@@ -39,6 +43,9 @@ class TaskListViewModel @Inject constructor(
                 updateTaskCheckStatus(
                     taskId = uiEvent.taskId,
                 )
+            }
+            is TaskListUiEvent.OnPrimaryButtonTapped -> {
+                navigationStream.onNext(NavigationModel.CreateTask)
             }
         }
     }

@@ -1,10 +1,9 @@
-package com.pedro.todo.tasklist.ui
+package com.pedro.todo.createtask.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.rxjava3.subscribeAsState
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
@@ -14,25 +13,26 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class TaskListFragment : Fragment() {
+class CreateTaskFragment : Fragment() {
     @Inject
     lateinit var navigationPerformer: NavigationPerformer
 
-    private val viewModel: TaskListViewModel by viewModels()
+    private val viewModel: CreateTaskViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
         return ComposeView(requireContext()).apply {
             setContent {
-                val screenState = viewModel.buildUiState().subscribeAsState(
-                    TaskListUiState(emptyList())
+                val screenState = viewModel.uiStateStream().subscribeAsState(
+                    CreateTaskUiState("", "")
                 )
-                TaskListView(
+                CreateTaskView(
                     uiState = screenState.value,
-                ) { uiEvent -> viewModel.handleUiEvents(uiEvent) }
+                    onUiEvent = { viewModel.handleUiEvents(it) },
+                )
             }
         }
     }

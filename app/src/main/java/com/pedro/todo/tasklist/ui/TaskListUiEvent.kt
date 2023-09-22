@@ -4,4 +4,6 @@ sealed class TaskListUiEvent {
     data class OnCheckChanged(
         val taskId: String,
     ) : TaskListUiEvent()
+
+    object OnPrimaryButtonTapped : TaskListUiEvent()
 }

@@ -1,7 +1,9 @@
 package com.pedro.todo.data.di
 
 import com.pedro.todo.data.repository.TaskRepository
+import com.pedro.todo.data.repository.TaskUpdateRepository
 import com.pedro.todo.data.repository.impl.TaskRepositoryImpl
+import com.pedro.todo.data.repository.impl.TaskUpdateRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -12,7 +14,11 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 interface DataModule {
 
-    @Singleton
     @Binds
+    @Singleton
     fun bindTaskRepository(impl: TaskRepositoryImpl): TaskRepository
+
+    @Binds
+    @Singleton
+    fun findTaskUpdateRepository(impl: TaskUpdateRepositoryImpl) : TaskUpdateRepository
 }

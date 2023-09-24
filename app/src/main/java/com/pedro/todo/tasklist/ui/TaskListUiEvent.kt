@@ -5,5 +5,11 @@ sealed class TaskListUiEvent {
         val taskId: String,
     ) : TaskListUiEvent()
 
+    data class OnTaskTapped(
+        val taskId: String,
+        val taskTitle: String,
+        val taskDescription: String,
+    ) : TaskListUiEvent()
+
     object OnPrimaryButtonTapped : TaskListUiEvent()
 }

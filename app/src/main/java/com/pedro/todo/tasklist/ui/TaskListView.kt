@@ -3,9 +3,13 @@ package com.pedro.todo.tasklist.ui
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -72,13 +76,28 @@ private fun TaskItem(
             .padding(
                 horizontal = dimensionResource(id = R.dimen.task_item_horizontal_padding),
                 vertical = dimensionResource(id = R.dimen.task_item_vertical_padding),
-            ),
+            )
+            .clickable {
+                onUiEvent(
+                    TaskListUiEvent.OnTaskTapped(
+                        uiState.id,
+                        uiState.title,
+                        uiState.description,
+                    )
+                )
+            },
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Text(
-            modifier = Modifier.weight(1f, fill = true),
-            text = uiState.title,
-        )
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                text = uiState.title,
+            )
+
+
+            Text(
+                text = uiState.description,
+            )
+        }
 
         Checkbox(
             checked = uiState.isChecked,

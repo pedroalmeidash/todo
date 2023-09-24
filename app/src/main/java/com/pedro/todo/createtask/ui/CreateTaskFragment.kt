@@ -26,7 +26,7 @@ class CreateTaskFragment : Fragment() {
     ): View? {
         return ComposeView(requireContext()).apply {
             setContent {
-                val screenState = viewModel.uiStateStream().subscribeAsState(
+                val screenState = viewModel.buildUiStateStream().subscribeAsState(
                     CreateTaskUiState("", "")
                 )
                 CreateTaskView(

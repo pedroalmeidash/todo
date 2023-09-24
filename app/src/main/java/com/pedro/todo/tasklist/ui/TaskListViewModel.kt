@@ -2,6 +2,7 @@ package com.pedro.todo.tasklist.ui
 
 import android.annotation.SuppressLint
 import androidx.lifecycle.ViewModel
+import com.pedro.todo.data.dto.TaskDTO
 import com.pedro.todo.data.repository.TaskRepository
 import com.pedro.todo.navigation.NavigationModel
 import com.pedro.todo.tasklist.mapper.TaskItemUiStateMapper
@@ -46,6 +47,17 @@ class TaskListViewModel @Inject constructor(
             }
             is TaskListUiEvent.OnPrimaryButtonTapped -> {
                 navigationStream.onNext(NavigationModel.CreateTask)
+            }
+            is TaskListUiEvent.OnTaskTapped -> {
+                navigationStream.onNext(
+                    NavigationModel.TaskDetail(
+                        TaskDTO(
+                            uiEvent.taskId,
+                            uiEvent.taskTitle,
+                            uiEvent.taskDescription,
+                        )
+                    )
+                )
             }
         }
     }

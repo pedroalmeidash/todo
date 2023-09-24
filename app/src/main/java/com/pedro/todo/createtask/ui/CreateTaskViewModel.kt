@@ -23,7 +23,7 @@ class CreateTaskViewModel @Inject constructor(
 
     val navigationStream: PublishSubject<NavigationModel> = PublishSubject.create()
 
-    fun uiStateStream(): Observable<CreateTaskUiState> {
+    fun buildUiStateStream(): Observable<CreateTaskUiState> {
         return Observable.combineLatest(
             titleStream.distinctUntilChanged(),
             descriptionStream.distinctUntilChanged(),

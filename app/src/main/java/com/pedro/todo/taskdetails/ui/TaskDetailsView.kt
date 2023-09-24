@@ -1,26 +1,23 @@
-package com.pedro.todo.createtask.ui
+package com.pedro.todo.taskdetails.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import com.pedro.todo.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CreateTaskView(
-    uiState: CreateTaskUiState,
-    onUiEvent: (CreateTaskUiEvent) -> Unit,
+fun TaskDetailsView(
+    uiState: TaskDetailUiState,
+    onUiEvent: (TaskDetailUiEvent) -> Unit,
 ) {
     Scaffold(
         content = {
@@ -36,16 +33,6 @@ fun CreateTaskView(
                 )
             }
         },
-        bottomBar = {
-            Button(
-                modifier = Modifier
-                    .padding(dimensionResource(id = R.dimen.small_padding))
-                    .fillMaxWidth(),
-                onClick = { onUiEvent(CreateTaskUiEvent.OnPrimaryButtonTapped) },
-            ) {
-                Text(text = "Create Task", color = Color.White)
-            }
-        }
     )
 }
 
@@ -54,12 +41,12 @@ fun CreateTaskView(
 private fun TaskInputFields(
     title: String,
     description: String,
-    onUiEvent: (CreateTaskUiEvent) -> Unit,
+    onUiEvent: (TaskDetailUiEvent) -> Unit,
 ) {
     TextField(
         modifier = Modifier.fillMaxWidth(),
         value = title,
-        onValueChange = { onUiEvent(CreateTaskUiEvent.OnTitleChange(it)) }
+        onValueChange = { onUiEvent(TaskDetailUiEvent.OnTitleChange(it)) }
     )
 
     Spacer(modifier = Modifier.height(dimensionResource(id = R.dimen.medium_padding)))
@@ -67,6 +54,6 @@ private fun TaskInputFields(
     TextField(
         modifier = Modifier.fillMaxWidth(),
         value = description,
-        onValueChange = { onUiEvent(CreateTaskUiEvent.OnDescriptionChange(it)) }
+        onValueChange = { onUiEvent(TaskDetailUiEvent.OnDescriptionChange(it)) }
     )
 }
